@@ -7,7 +7,7 @@
             <children>
                 <devils_homewidget translate="title" module="devils_homewidget">
                     <title>Home Widget</title>
-                    <action>adminhtml/homewidget</action>
+                    <action>adminhtml/homeWidget</action>
                     <sort_order>200</sort_order>
                 </devils_homewidget>
             </children>
