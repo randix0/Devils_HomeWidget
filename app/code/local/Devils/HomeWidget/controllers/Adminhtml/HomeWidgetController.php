@@ -9,11 +9,6 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
 
     public function indexAction()
     {
-        $this->_redirect('*/*/list');
-    }
-
-    public function listAction()
-    {
         $this->loadLayout();
         $this->_setActiveMenu('devils/devils_homewidget');
         $this->renderLayout();
