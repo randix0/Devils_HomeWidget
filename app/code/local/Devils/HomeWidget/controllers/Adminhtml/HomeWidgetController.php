@@ -2,21 +2,25 @@
 
 class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Controller_Action
 {
-    protected function _isAllowed() {
+    protected function _isAllowed()
+    {
         return Mage::getSingleton('admin/session')->isAllowed('devils/devils_homewidget');
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->_redirect('*/*/list');
     }
 
-    public function listAction() {
+    public function listAction()
+    {
         $this->loadLayout();
         $this->_setActiveMenu('devils/devils_homewidget');
         $this->renderLayout();
     }
 
-    public function gridAction() {
+    public function gridAction()
+    {
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -37,6 +41,7 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             $this->_redirect('*/*/');
             return;
         }
+
         $this->_title($model->getId() ? $model->getName() : $this->__('New Image'));
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
@@ -72,6 +77,7 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             $image = $this->_initImage();
             $result = null;
             $isUploaded = true;
+
             try {
                 /** @var $uploader Mage_Core_Model_File_Uploader */
                 $uploader = Mage::getModel('core/file_uploader', 'image');
@@ -82,6 +88,7 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             } catch (Exception $e) {
                 $isUploaded = false;
             }
+
             $deleteImage = false;
             if (isset($data['image']['delete'])) {
                 $deleteImage = true;
@@ -93,6 +100,7 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             $data['height'] = (int) $sizeData[1];
 
             $image->addData($data);
+
             if ($deleteImage) {
                 $image->setImage('');
             }
@@ -102,12 +110,14 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             } catch (Exception $e) {
                 return $this->_redirect('*/*/');
             }
+
             if ($isUploaded) {
                 $imageFullPath = $helper->getImageFullPath($imageId . DS);
                 $result = $uploader->save($imageFullPath);
                 $image->setImage($imageId . DS . $result['file']);
                 $image->save();
             }
+
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 Mage::helper('devils_homewidget')->__('%s was successfully saved', $image->getName())
             );
@@ -125,8 +135,7 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
     {
         /** @var Devils_HomeWidget_Helper_Data $helper */
         $helper = Mage::helper('devils_homewidget');
-        if ($this->getRequest()->getParam('id') > 0)
-        {
+        if ($this->getRequest()->getParam('id') > 0) {
             try {
                 $id = $this->getRequest()->getParam('id');
                 $image = Mage::getModel('devils_homewidget/image');
@@ -173,5 +182,6 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
                 rmdir($dir);
             }
         }
+        return $this;
     }
 }

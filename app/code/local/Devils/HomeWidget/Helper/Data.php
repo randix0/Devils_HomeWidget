@@ -10,16 +10,6 @@ class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
         );
     }
 
-    public function getBigImage($file)
-    {
-        return $this->_getResizedImage($file, 685, 400);
-    }
-
-    public function getMediumImage($file)
-    {
-        return $this->_getResizedImage($file, 600, 400);
-    }
-
     public function getResizedImage($file, $width, $height)
     {
         return $this->_getResizedImage($file, $width, $height);
@@ -42,14 +32,13 @@ class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
             $imageObj->keepAspectRatio(true);
             $imageObj->keepFrame(true);
             $imageObj->quality(100);
-            //$imageObj->backgroundColor(array(255, 255, 255));
             $imageObj->resize($width, $height);
             $imageObj->save($imageFileResizedFullPath);
         }
 
         $imageCacheUrl = $this->getImageCacheUrl($imageFileResized);
 
-        if(file_exists($imageFileResizedFullPath)){
+        if (file_exists($imageFileResizedFullPath)) {
             return $imageCacheUrl;
         }
         return false;

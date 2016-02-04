@@ -9,31 +9,44 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
         $this->setUseAjax(true);
     }
 
-    protected function _prepareColumns() {
+    protected function _prepareColumns()
+    {
         $this->addColumn('id', array(
             'header' => $this->__('ID'),
             'sortable' => true,
             'width' => '60px',
             'index' => 'entity_id'
         ));
+
         $this->addColumn('name', array(
             'header' => $this->__('Name'),
             'type'   => 'text',
             'index'  => 'name',
             'escape' => true
         ));
+
         $this->addColumn('link', array(
             'header' => $this->__('Link'),
             'type'   => 'text',
             'index'  => 'link',
             'escape' => true
         ));
+
+        $this->addColumn('size_code', array(
+            'header' => $this->__('Size Code'),
+            'type'   => 'text',
+            'index'  => 'size_code',
+            'width'  => '60px',
+            'escape' => true
+        ));
+
         $this->addColumn('position', array(
             'header' => $this->__('Sort Order'),
             'sortable' => true,
             'width' => '60px',
             'index' => 'position'
         ));
+
         $this->addColumn('active', array(
             'header'    => $this->__('Active'),
             'align'     => 'center',
