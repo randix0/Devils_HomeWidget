@@ -1,6 +1,6 @@
 <?php
 
-class Devils_HomeWidget_Block_Adminhtml_Homewidget extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Devils_HomeWidget_Block_Adminhtml_HomeWidget extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     protected function _construct()
     {
