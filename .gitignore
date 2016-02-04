@@ -1,6 +1,8 @@
+.htaccess
 .htaccess.sample
 .modgit/
 .modman/
+.idea/
 app/code/community/Phoenix/
 app/code/community/Cm/
 app/code/core/
