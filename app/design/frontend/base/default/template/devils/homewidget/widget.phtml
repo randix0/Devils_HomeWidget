@@ -9,12 +9,16 @@ if (!empty($items)):
 ?>
 
 <div class="homepage-banners row clearfix ">
-    <?php foreach($items as $item):
+    <?php
+    $i = 1;
+    foreach($items as $item):
         $width = (int) $item->getWidth();
         $height = (int) $item->getHeight();
         $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height);
+        $i++;
         if (!empty($imageUrl)):
         ?>
+            <?php if ($i % 2):?></div><div class="homepage-banners row clearfix "><?php endif;?>
             <div class="grid_6">
                 <a href="<?php echo $item->getLink(); ?>" target="_self">
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>" />
