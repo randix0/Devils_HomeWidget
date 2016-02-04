@@ -10,7 +10,9 @@ if (!empty($items)):
 
 <div class="home-widget-container">
     <?php foreach($items as $item):
-        $imageUrl = $helper->getMediumImage($item->getImage());
+        $width = (int) $item->getWidth();
+        $height = (int) $item->getHeight();
+        $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height);
         if (!empty($imageUrl)):
         ?>
         <div class="home-widget-item" style="float: left;"><img src="<?php echo $imageUrl; ?>" alt=""></div>

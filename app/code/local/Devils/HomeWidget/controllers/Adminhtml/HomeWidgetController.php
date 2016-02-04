@@ -87,6 +87,11 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
                 $deleteImage = true;
             }
             unset($data['image']);
+
+            $sizeData = explode('x', $data['size_code']);
+            $data['width'] = (int) $sizeData[0];
+            $data['height'] = (int) $sizeData[1];
+
             $image->addData($data);
             if ($deleteImage) {
                 $image->setImage('');
@@ -106,11 +111,11 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 Mage::helper('devils_homewidget')->__('%s was successfully saved', $image->getName())
             );
+
             if ($this->getRequest()->getParam('back')) {
                 $params = array('id' => $image->getId());
                 $this->_redirect('*/*/edit', $params);
-            } else {
-                $this->_redirect('*/*/list');
+                return;
             }
         }
         $this->_redirect('*/*/');
@@ -120,10 +125,9 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
     {
         /** @var Devils_HomeWidget_Helper_Data $helper */
         $helper = Mage::helper('devils_homewidget');
-        if($this->getRequest()->getParam('id') > 0)
+        if ($this->getRequest()->getParam('id') > 0)
         {
-            try
-            {
+            try {
                 $id = $this->getRequest()->getParam('id');
                 $image = Mage::getModel('devils_homewidget/image');
                 $image->setId($id)->delete();
@@ -133,11 +137,24 @@ class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Co
                 $this->_clearDir($cachePath);
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Image was successfully deleted'));
                 $this->_redirect('*/*/');
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
+        $this->_redirect('*/*/');
+    }
+
+    public function switchImageSetsAction()
+    {
+        /** @var Devils_HomeWidget_Model_Resource_Image $resource */
+        $resource = Mage::getResourceModel('devils_homewidget/image');
+        try {
+            $resource->switchImageSets();
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+
         $this->_redirect('*/*/');
     }
 

@@ -41,6 +41,13 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
             'required' => true,
             'name' => 'link'
         ));
+        $fieldset->addField('size_code', 'select', array(
+            'label' => $this->__('Size'),
+            'class' => 'required-entry',
+            'required' => true,
+            'name' => 'size_code',
+            'options' => $helper->getAvailableSizes()
+        ));
         $fieldset->addField('position', 'text', array(
             'name'      => 'position',
             'label'     => $this->__('Sort Order'),
@@ -69,10 +76,12 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
                 'name' => 'entity_id',
             ));
             $form->setValues($image->getData());
-            $image = $form->getElement('image')->getValue();
+            $imageFile = $form->getElement('image')->getValue();
+            $width = $image->getWidth();
+            $height = $image->getHeight();
             if (!empty($image)) {
-                $form->getElement('image')->setValue($helper->getImageUrl($image));
-                $form->getElement('thumbnail')->setValue($helper->getMediumImage($image));
+                $form->getElement('image')->setValue($helper->getImageUrl($imageFile));
+                $form->getElement('thumbnail')->setValue($helper->getResizedImage($imageFile, $width, $height));
             }
         }
         $form->setUseContainer(true);

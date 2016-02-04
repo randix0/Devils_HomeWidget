@@ -2,6 +2,14 @@
 
 class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getAvailableSizes()
+    {
+        return array(
+            '548x362' => 'Size #1 (Width = 548px | Height = 362px)',
+            '548x548' => 'Size #2 (Width = 548px | Height = 548px)',
+        );
+    }
+
     public function getBigImage($file)
     {
         return $this->_getResizedImage($file, 685, 400);
@@ -10,6 +18,11 @@ class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMediumImage($file)
     {
         return $this->_getResizedImage($file, 600, 400);
+    }
+
+    public function getResizedImage($file, $width, $height)
+    {
+        return $this->_getResizedImage($file, $width, $height);
     }
 
     protected function _getResizedImage($file, $width, $height = null)
@@ -27,8 +40,9 @@ class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
             $imageObj = new Varien_Image($imagePath);
             $imageObj->constrainOnly(true);
             $imageObj->keepAspectRatio(true);
-            $imageObj->keepFrame(false);
+            $imageObj->keepFrame(true);
             $imageObj->quality(100);
+            //$imageObj->backgroundColor(array(255, 255, 255));
             $imageObj->resize($width, $height);
             $imageObj->save($imageFileResizedFullPath);
         }

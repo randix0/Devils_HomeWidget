@@ -14,7 +14,7 @@ class Devils_HomeWidget_Model_Varien_Data_Form_Element_Thumbnail extends Varien_
         if ($this->getValue()) {
             $html = '<a onclick="imagePreview(\'' . $this->getHtmlId() . '_image\'); return false;" href="'
                 . $this->getValue() . '"><img id="' . $this->getHtmlId()
-                . '_image" style="border: 1px solid #d6d6d6;" title="' . $this->getValue() . '" src="'
+                . '_image" title="' . $this->getValue() . '" src="'
                 . $this->getValue() . '" alt="' . $this->getValue() . '"></a>';
         }
         $this->setClass('input-file');

@@ -6,7 +6,6 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
     {
         parent::_construct();
         $this->setId('devils_homewidget_grid');
-        $this->setDefaultSort('position');
         $this->setUseAjax(true);
     }
 
