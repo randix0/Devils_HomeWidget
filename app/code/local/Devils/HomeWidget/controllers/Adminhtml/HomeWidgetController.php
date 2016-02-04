@@ -1,6 +1,6 @@
 <?php
 
-class Devils_HomeWidget_Adminhtml_HomeWidgetController extends Mage_Adminhtml_Controller_Action
+class Devils_HomeWidget_Adminhtml_HomewidgetController extends Mage_Adminhtml_Controller_Action
 {
     protected function _isAllowed()
     {
