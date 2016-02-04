@@ -1,0 +1,21 @@
+<?php
+
+/** @var Devils_HomeWidget_Block_Widget_Home $this */
+$items = $this->getItems();
+/** @var Devils_HomeWidget_Helper_Data $helper */
+$helper = Mage::helper('devils_homewidget');
+
+if (!empty($items)):
+?>
+
+<div class="home-widget-container">
+    <?php foreach($items as $item):
+        $imageUrl = $helper->getMediumImage($item->getImage());
+        if (!empty($imageUrl)):
+        ?>
+        <div class="home-widget-item" style="float: left;"><img src="<?php echo $imageUrl; ?>" alt=""></div>
+
+    <?php endif; endforeach; ?>
+</div>
+
+<?php endif; ?>

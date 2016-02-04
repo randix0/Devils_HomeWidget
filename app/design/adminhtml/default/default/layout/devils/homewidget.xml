@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_homewidget_list>
+        <reference name="content">
+            <block type="devils_homewidget/adminhtml_homewidget" name="devils_homewidget" />
+        </reference>
+    </adminhtml_homewidget_list>
+
+    <adminhtml_homewidget_grid>
+        <block type="devils_homewidget/adminhtml_homewidget_grid" name="homewidget-ajax" output="toHtml"/>
+    </adminhtml_homewidget_grid>
+
+    <adminhtml_homewidget_edit>
+        <reference name="content">
+            <block type="devils_homewidget/adminhtml_homewidget_edit" name="homewidget-edit"/>
+        </reference>
+    </adminhtml_homewidget_edit>
+</layout>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <devils>
+            <title>Devils</title>
+            <sort_order>1000</sort_order>
+            <children>
+                <devils_homewidget translate="title" module="devils_homewidget">
+                    <title>Home Widget</title>
+                    <action>adminhtml/homewidget</action>
+                    <sort_order>200</sort_order>
+                </devils_homewidget>
+            </children>
+        </devils>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <devils>
+                        <children>
+                            <devils_homewidget translate="title" module="devils_homewidget">
+                                <title>Manage Home Widget</title>
+                                <sort_order>200</sort_order>
+                            </devils_homewidget>
+                        </children>
+                    </devils>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

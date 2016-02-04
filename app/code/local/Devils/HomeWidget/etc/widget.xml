@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<widgets>
+    <devils_homewidget type="devils_homewidget/widget_home" translate="name description" module="devils_homewidget">
+        <name>Виджет для главной</name>
+        <description>Фотки и все такое</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>devils/homewidget/widget.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>devils/homewidget/widget.phtml</value>
+                        <label>Default Template</label>
+                    </default>
+                </values>
+            </template>
+        </parameters>
+    </devils_homewidget>
+</widgets>
