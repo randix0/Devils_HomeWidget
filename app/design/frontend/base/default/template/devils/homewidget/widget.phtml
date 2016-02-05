@@ -19,7 +19,7 @@ if (!empty($items)):
         if (!empty($imageUrl)):
             ?>
             <?php if ($i % 2): if ($i > 1) { echo '</div>'; } ?>
-                <div class="homepage-banners row <?php //echo 'clearfix'; ?> ">
+            <div class="homepage-banners row clearfix" style="margin:-13px 0 0!important;">
             <?php endif;?>
             <div class="grid_6">
                 <a href="<?php echo $item->getLink(); ?>" target="_self">
