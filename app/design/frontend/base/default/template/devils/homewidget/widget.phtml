@@ -8,7 +8,6 @@ $helper = Mage::helper('devils_homewidget');
 if (!empty($items)):
     ?>
 
-    <div class="homepage-banners row clearfix ">
     <?php
     $i = 0;
     foreach($items as $item):
@@ -19,7 +18,9 @@ if (!empty($items)):
         $i++;
         if (!empty($imageUrl)):
             ?>
-            <?php if ($i % 2):?></div><div class="homepage-banners row clearfix "><?php endif;?>
+            <?php if ($i % 2): if ($i > 1) { echo '</div>'; } ?>
+                <div class="homepage-banners row <?php //echo 'clearfix'; ?> ">
+            <?php endif;?>
             <div class="grid_6">
                 <a href="<?php echo $item->getLink(); ?>" target="_self">
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>" />
