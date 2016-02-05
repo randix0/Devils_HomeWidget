@@ -14,7 +14,8 @@ if (!empty($items)):
     foreach($items as $item):
         $width = (int) $item->getWidth();
         $height = (int) $item->getHeight();
-        $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height);
+        $resizeMode = $item->getResizeMode();
+        $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height, $resizeMode);
         $i++;
         if (!empty($imageUrl)):
             ?>

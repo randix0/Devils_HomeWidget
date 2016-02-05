@@ -39,16 +39,24 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
         $fieldset->addField('link', 'text', array(
             'label' => $this->__('Link'),
             'class' => 'required-entry',
-            'required' => true,
             'name' => 'link'
         ));
 
         $fieldset->addField('size_code', 'select', array(
             'label' => $this->__('Size'),
             'class' => 'required-entry',
-            'required' => true,
             'name' => 'size_code',
             'options' => $helper->getAvailableSizes()
+        ));
+
+        $fieldset->addField('resize_mode', 'select', array(
+            'label' => $this->__('Resize Mode'),
+            'class' => 'required-entry',
+            'name' => 'resize_mode',
+            'options' => array(
+                'cover' => $this->__('Cover'),
+                'contain' => $this->__('Contain')
+            ),
         ));
 
         $fieldset->addField('position', 'text', array(
@@ -56,13 +64,11 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
             'label'     => $this->__('Sort Order'),
             'class'     => 'validate-not-negative-number',
             'value'     => (int) $model->getPosition(),
-            'required'  => true,
         ));
 
         $fieldset->addField('active', 'select', array(
             'label' => $this->__('Active'),
             'class' => 'required-entry',
-            'required' => true,
             'name' => 'active',
             'options' => array(
                 0 => $this->__('No'),
@@ -85,9 +91,11 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
             $imageFile = $form->getElement('image')->getValue();
             $width = $image->getWidth();
             $height = $image->getHeight();
+            $resizeMode = $image->getResizeMode();
             if (!empty($image)) {
                 $form->getElement('image')->setValue($helper->getImageUrl($imageFile));
-                $form->getElement('thumbnail')->setValue($helper->getResizedImage($imageFile, $width, $height));
+                $form->getElement('thumbnail')
+                    ->setValue($helper->getResizedImage($imageFile, $width, $height, $resizeMode));
             }
         }
 

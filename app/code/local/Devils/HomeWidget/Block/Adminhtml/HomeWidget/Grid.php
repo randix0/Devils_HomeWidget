@@ -40,6 +40,18 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
             'escape' => true
         ));
 
+        $this->addColumn('resize_mode', array(
+            'header'    => $this->__('Resize mode'),
+            'align'     => 'center',
+            'width'     => 1,
+            'index'     => 'resize_mode',
+            'type'      => 'options',
+            'options'   => array(
+                'cover' => $this->__('Cover'),
+                'contain' => $this->__('Contain')
+            ),
+        ));
+
         $this->addColumn('position', array(
             'header' => $this->__('Sort Order'),
             'sortable' => true,

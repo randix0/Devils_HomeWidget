@@ -10,29 +10,53 @@ class Devils_HomeWidget_Helper_Data extends Mage_Core_Helper_Abstract
         );
     }
 
-    public function getResizedImage($file, $width, $height)
+    public function getResizedImage($file, $width, $height, $resizeMode = 'cover')
     {
-        return $this->_getResizedImage($file, $width, $height);
+        return $this->_getResizedImage($file, $width, $height, $resizeMode);
     }
 
-    protected function _getResizedImage($file, $width, $height = null)
+    protected function _getResizedImage($file, $width, $height, $resizeMode = 'cover')
     {
         if (empty($file)) {
             return false;
         }
+        $width = (int) $width;
+        $height = (int) $height;
+
         $imagePath = $this->getImageFullPath($file);
-        $imageFileResized = $width . '_' . (string) $height . DS . $file;
+        $imageFileResized = $width . '_' . $height . '_' . $resizeMode . DS . $file;
         $imageFileResizedFullPath = $this->getImageCacheFullPath($imageFileResized);
         if (
             !file_exists($imageFileResizedFullPath) && file_exists($imagePath)
             || file_exists($imagePath) && filemtime($imagePath) > filemtime($imageFileResizedFullPath)
         ) {
+            $finalAspectRatio = $width / $height;
             $imageObj = new Varien_Image($imagePath);
-            $imageObj->constrainOnly(true);
-            $imageObj->keepAspectRatio(true);
-            $imageObj->keepFrame(true);
-            $imageObj->quality(100);
+            $imageObj->backgroundColor(array(255, 255, 255));
+            $originalWidth = (int) $imageObj->getOriginalWidth();
+            $originalHeight = (int) $imageObj->getOriginalHeight();
+            $originalAspectRatio = $originalWidth / $originalHeight;
+
+            if ($resizeMode == 'cover') {
+                if ($originalAspectRatio > $finalAspectRatio) {
+                    $cropWidth = $finalAspectRatio * $originalHeight;
+                    $widthDiff = $originalWidth - $cropWidth;
+                    $cropX = (int) ($widthDiff / 2);
+                    $imageObj->crop(0, $cropX, $cropX, 0);
+                } else {
+                    $cropHeight = (int) ($originalWidth / $finalAspectRatio);
+                    $heightDiff = $originalHeight - $cropHeight;
+                    $cropY = (int) ($heightDiff / 2);
+                    $imageObj->crop($cropY, 0, 0, $cropY);
+                }
+            } else {
+                $imageObj->constrainOnly(false);
+                $imageObj->keepAspectRatio(true);
+                $imageObj->keepFrame(true);
+            }
+
             $imageObj->resize($width, $height);
+            $imageObj->quality(100);
             $imageObj->save($imageFileResizedFullPath);
         }
 
