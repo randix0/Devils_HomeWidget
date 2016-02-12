@@ -25,10 +25,10 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
             'escape' => true
         ));
 
-        $this->addColumn('link', array(
-            'header' => $this->__('Link'),
+        $this->addColumn('url_path', array(
+            'header' => $this->__('URL Path'),
             'type'   => 'text',
-            'index'  => 'link',
+            'index'  => 'url_path',
             'escape' => true
         ));
 
@@ -59,11 +59,27 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
             'index' => 'position'
         ));
 
-        $this->addColumn('active', array(
-            'header'    => $this->__('Active'),
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'        => Mage::helper('cms')->__('Store View'),
+                'index'         => 'store_id',
+                'type'          => 'store',
+                'store_all'     => true,
+                'store_view'    => true,
+                'sortable'      => false,
+                'filter_condition_callback'
+                => array($this, '_filterStoreCondition'),
+            ));
+        }
+
+        $this->addColumn('is_active', array(
+            'header'    => $this->__('Is Image Active'),
             'align'     => 'center',
             'width'     => 1,
-            'index'     => 'active',
+            'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
                 0 => $this->__('No'),
@@ -73,11 +89,26 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Grid extends Mage_Adminhtml_B
         return parent::_prepareColumns();
     }
 
+    protected function _filterStoreCondition($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return;
+        }
+
+        $this->getCollection()->addStoreFilter($value);
+    }
+
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('devils_homewidget/image_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
+    }
+
+    protected function _afterLoadCollection()
+    {
+        $this->getCollection()->walk('afterLoad');
+        parent::_afterLoadCollection();
     }
 
     public function getGridUrl()

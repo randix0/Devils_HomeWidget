@@ -14,9 +14,12 @@
             <devils_homewidget_resource>
                 <class>Devils_HomeWidget_Model_Resource</class>
                 <entities>
-                    <images_source>
-                        <table>devils_homewidget_images</table>
-                    </images_source>
+                    <image>
+                        <table>devils_homewidget_image</table>
+                    </image>
+                    <image_store>
+                        <table>devils_homewidget_image_store</table>
+                    </image_store>
                 </entities>
             </devils_homewidget_resource>
         </models>

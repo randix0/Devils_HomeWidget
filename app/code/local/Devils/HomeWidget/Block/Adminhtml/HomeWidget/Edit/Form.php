@@ -36,10 +36,12 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
             )
         );
 
-        $fieldset->addField('link', 'text', array(
-            'label' => $this->__('Link'),
+        $fieldset->addField('url_path', 'text', array(
+            'label' => $this->__('URL Path'),
             'class' => 'required-entry',
-            'name' => 'link'
+            'name' => 'url_path',
+            'after_element_html' =>
+                $this->__('<- should be without host and store code; example <strong>/designers/shevchenko</strong>'),
         ));
 
         $fieldset->addField('size_code', 'select', array(
@@ -66,10 +68,32 @@ class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminh
             'value'     => (int) $model->getPosition(),
         ));
 
-        $fieldset->addField('active', 'select', array(
-            'label' => $this->__('Active'),
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $field = $fieldset->addField('store_id', 'multiselect', array(
+                'name'      => 'stores[]',
+                'label'     => Mage::helper('cms')->__('Store View'),
+                'title'     => Mage::helper('cms')->__('Store View'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+            ));
+            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $field->setRenderer($renderer);
+        }
+        else {
+            $fieldset->addField('store_id', 'hidden', array(
+                'name'      => 'stores[]',
+                'value'     => Mage::app()->getStore(true)->getId()
+            ));
+            $model->setStoreId(Mage::app()->getStore(true)->getId());
+        }
+
+        $fieldset->addField('is_active', 'select', array(
+            'label' => $this->__('Is Image Active'),
             'class' => 'required-entry',
-            'name' => 'active',
+            'name' => 'is_active',
             'options' => array(
                 0 => $this->__('No'),
                 1 => $this->__('Yes')

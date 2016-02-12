@@ -15,6 +15,8 @@ if (!empty($items)):
         $height = (int) $item->getHeight();
         $resizeMode = $item->getResizeMode();
         $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height, $resizeMode);
+        $urlPath = trim($item->getUrlPath(), '/');
+        $url = $this->getUrl($urlPath);
         $i++;
         if (!empty($imageUrl)):
         ?>
@@ -22,7 +24,7 @@ if (!empty($items)):
         <div class="homepage-banners row clearfix" style="margin:-13px 0 0!important;">
             <?php endif;?>
             <div class="grid_6">
-                <a href="<?php echo $item->getLink(); ?>" target="_self">
+                <a href="<?php echo $url; ?>" target="_self">
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>" />
                 </a>
             </div>

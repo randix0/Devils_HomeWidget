@@ -1,21 +1,75 @@
 <?php
-
+/** @var Devils_HomeWidget_Model_Resource_Setup $installer */
 $installer = $this;
 $installer->startSetup();
-$table = $installer->run("
-DROP TABLE IF EXISTS {$this->getTable('devils_homewidget_images')};
-CREATE TABLE {$this->getTable('devils_homewidget_images')} (
-  `entity_id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `link` text NOT NULL DEFAULT '',
-  `image` VARCHAR(255) NOT NULL,
-  `size_code` VARCHAR(20) NOT NULL,
-  `resize_mode` VARCHAR(10) NOT NULL,
-  `width` int(4) NOT NULL,
-  `height` int(4) NOT NULL,
-  `position` int(10) NOT NULL DEFAULT 0,
-  `active` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-");
+
+/**
+ * Create table 'devils_homewidget/image'
+ */
+$installer->getConnection()->dropTable($installer->getTable('devils_homewidget/image'));
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('devils_homewidget/image'))
+    ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+    ), 'Entity ID')
+    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => true
+    ), 'Name')
+    ->addColumn('url_path', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        'nullable'  => false,
+    ), 'URL Path')
+    ->addColumn('image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => true
+    ), 'Image')
+    ->addColumn('resize_mode', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
+        'nullable'  => true
+    ), 'Resize Mode')
+    ->addColumn('size_code', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
+        'nullable'  => true
+    ), 'Size Code')
+    ->addColumn('width', Varien_Db_Ddl_Table::TYPE_INTEGER, 4, array(
+        'nullable'  => false
+    ), 'Width')
+    ->addColumn('height', Varien_Db_Ddl_Table::TYPE_INTEGER, 4, array(
+        'nullable'  => false
+    ), 'Height')
+    ->addColumn('position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        'default'   => '0',
+    ), 'Sort Order')
+    ->addColumn('is_active', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'nullable'  => false,
+        'default'   => '1',
+    ), 'Is Image Active')
+    ->setComment('Devils HomeWidget Image Table');
+$installer->getConnection()->createTable($table);
+
+/**
+ * Create table 'devils_homewidget/image_store'
+ */
+$installer->getConnection()->dropTable('devils_homewidget/image_store');
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('devils_homewidget/image_store'))
+    ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'nullable'  => false,
+        'primary'   => true,
+    ), 'Entity ID')
+    ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+    ), 'Store ID')
+    ->addIndex($installer->getIdxName('devils_homewidget/image_store', array('store_id')),
+        array('store_id'))
+    ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'page_id', 'devils_homewidget/image', 'entity_id'),
+        'entity_id', $installer->getTable('devils_homewidget/image'), 'entity_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'store_id', 'core/store', 'store_id'),
+        'store_id', $installer->getTable('core/store'), 'store_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->setComment('CMS Page To Store Linkage Table');
+$installer->getConnection()->createTable($table);
+
 $installer->endSetup();
