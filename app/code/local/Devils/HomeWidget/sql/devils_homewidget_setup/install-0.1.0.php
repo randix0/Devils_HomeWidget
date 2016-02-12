@@ -49,7 +49,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'devils_homewidget/image_store'
  */
-$installer->getConnection()->dropTable('devils_homewidget/image_store');
+$installer->getConnection()->dropTable($installer->getTable('devils_homewidget/image_store'));
 $table = $installer->getConnection()
     ->newTable($installer->getTable('devils_homewidget/image_store'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
