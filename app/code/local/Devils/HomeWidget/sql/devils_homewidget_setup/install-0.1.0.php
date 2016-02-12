@@ -69,7 +69,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('CMS Page To Store Linkage Table');
+    ->setComment('Devils HomeWidget Image To Store Linkage Table');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
