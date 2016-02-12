@@ -24,9 +24,9 @@ if (!empty($items)):
         <div class="homepage-banners row clearfix" style="margin:-13px 0 0!important;">
             <?php endif;?>
             <div class="grid_6">
-                <a href="<?php echo $url; ?>" target="_self">
+                <?php echo ($urlPath) ? '<a href="' . $url . '" target="_self">' : ''; ?>
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>" />
-                </a>
+                <?php echo ($urlPath) ? '</a>' : ''; ?>
             </div>
             <?php endif; endforeach; ?>
         </div></div>
