@@ -1,0 +1,116 @@
+<script>
+    var MapCreator = {
+        initialized: false,
+        canvasObj: null,
+        canvasContext: null,
+        currentFigure: 0,
+        points: [],
+        size: {
+            width: null,
+            height: null
+        },
+        init: function (id) {
+            this.canvasObj = document.getElementById(id);
+            this.canvasContext = this.canvasObj.getContext("2d");
+            this.size.width = this.canvasObj.offsetWidth;
+            this.size.height = this.canvasObj.offsetHeight;
+            this.canvasContext.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            this.initialized = true;
+        },
+        redrawCanvas: function () {
+            if (!this.initialized) {
+                return false;
+            }
+
+            this.canvasContext.clearRect(0, 0, this.size.width, this.size.height);
+            this.canvasContext.beginPath();
+            this.canvasContext.strokeStyle = '#000000';
+
+            this.points.forEach(function (figure, i) {
+                c = 0;
+
+                if (MapCreator.currentFigure == i) {
+                    MapCreator.canvasContext.fill();
+                }
+                figure.forEach(function (point) {
+                    if (c == 0) {
+                        MapCreator.canvasContext.moveTo(point[0], point[1]);
+                    } else {
+                        MapCreator.canvasContext.lineTo(point[0], point[1]);
+                        MapCreator.canvasContext.stroke();
+                    }
+                    c++;
+                });
+
+                if (c > 2) {
+                    if (MapCreator.currentFigure == i) {
+                        MapCreator.canvasContext.closePath();
+                        MapCreator.canvasContext.beginPath();
+                        MapCreator.canvasContext.strokeStyle = '#ff0000';
+                    }
+                    MapCreator.canvasContext.moveTo(figure[figure.length - 1][0], figure[figure.length - 1][1]);
+                    MapCreator.canvasContext.lineTo(figure[0][0], figure[0][1]);
+                    MapCreator.canvasContext.stroke();
+                }
+
+                MapCreator.canvasContext.closePath();
+            });
+
+        },
+        deleteLastFigure: function () {
+            if (this.points[this.currentFigure].length > 0) {
+                this.points[this.currentFigure] = [];
+            } else {
+                this.currentFigure--;
+                this.points[this.currentFigure] = [];
+            }
+            this.redrawCanvas();
+        },
+        newFigure: function () {
+            this.addTableRow(this.currentFigure, this.points[this.currentFigure]);
+            if (typeof(this.points[this.currentFigure]) != 'undefined' && this.points[this.currentFigure].length > 0) {
+                this.currentFigure++;
+                this.points[this.currentFigure] = [];
+            }
+            this.redrawCanvas();
+        },
+        click: function (event) {
+            if (!this.initialized) {
+                this.init(event.target.id);
+            }
+
+            x = event.offsetX;
+            y = event.offsetY;
+
+            if (typeof(this.points[this.currentFigure]) == 'undefined') {
+                this.points[this.currentFigure] = [];
+            }
+            this.points[this.currentFigure].push([x, y]);
+            this.redrawCanvas();
+
+        },
+        addTableRow: function (id, points) {
+            //<tr id="homewidget_area_'+ id +'">
+            if (typeof(points) == 'undefined' || !points || points.length == 0) {
+                return false;
+            }
+            html = '<td><input type="hidden" name="areas['+ id +'][points]" value="'+ points +'">' + id + '</td>' +
+                '<td><input type="text" class="input-text" name="areas['+ id +'][name]" value=""></td>' +
+                '<td><input type="text" class="input-text required-entry" name="areas['+ id +'][url_path]" value=""></td>' +
+                '<td class="last"><span title="Delete row"><button title="Delete Row" type="button" class="scalable delete delete-select-row icon-btn" onclick="MapCreator.deleteTableRow(' + id + ');" style=""><span><span><span>Delete Row</span></span></span></button></span></td>';
+            newRow = document.createElement('tr');
+            newRow.setAttribute('id', 'homewidget_area_'+ id);
+            newRow.innerHTML = html;
+
+            document.getElementById('homewidget_areas').appendChild(newRow);
+            return false;
+        },
+        deleteTableRow: function (id) {
+            this.points.splice(id, 1);
+            removeNode = document.getElementById('homewidget_area_'+ id);
+            removeNode.parentElement.removeChild(removeNode);
+            this.redrawCanvas();
+            return false;
+        }
+    };
+</script>

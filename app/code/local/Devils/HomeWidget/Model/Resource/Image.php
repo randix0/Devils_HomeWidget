@@ -115,22 +115,22 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
             $newStores = (array)$object->getStoreId();
         }
         $table  = $this->getTable('devils_homewidget/image_store');
-        $insert = array_diff($newStores, $oldStores);
-        $delete = array_diff($oldStores, $newStores);
+        $insertStores = array_diff($newStores, $oldStores);
+        $deleteStores = array_diff($oldStores, $newStores);
 
-        if ($delete) {
+        if ($deleteStores) {
             $where = array(
                 'entity_id = ?'     => (int) $object->getId(),
-                'store_id IN (?)' => $delete
+                'store_id IN (?)' => $deleteStores
             );
 
             $this->_getWriteAdapter()->delete($table, $where);
         }
 
-        if ($insert) {
+        if ($insertStores) {
             $data = array();
 
-            foreach ($insert as $storeId) {
+            foreach ($insertStores as $storeId) {
                 $data[] = array(
                     'entity_id'  => (int) $object->getId(),
                     'store_id' => (int) $storeId

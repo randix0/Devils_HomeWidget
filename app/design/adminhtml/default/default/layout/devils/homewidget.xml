@@ -11,8 +11,14 @@
     </adminhtml_homewidget_grid>
 
     <adminhtml_homewidget_edit>
+        <reference name="left">
+            <block type="devils_homewidget/adminhtml_homewidget_edit_tabs" name="homewidget-edit.tabs"/>
+        </reference>
         <reference name="content">
             <block type="devils_homewidget/adminhtml_homewidget_edit" name="homewidget-edit"/>
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/template" name="homewidget-edit.js" template="devils/homewidget/form/js.phtml"/>
         </reference>
     </adminhtml_homewidget_edit>
 </layout>

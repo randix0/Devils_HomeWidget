@@ -63,7 +63,7 @@ $table = $installer->getConnection()
     ), 'Store ID')
     ->addIndex($installer->getIdxName('devils_homewidget/image_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'page_id', 'devils_homewidget/image', 'entity_id'),
+    ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'entity_id', 'devils_homewidget/image', 'entity_id'),
         'entity_id', $installer->getTable('devils_homewidget/image'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('devils_homewidget/image_store', 'store_id', 'core/store', 'store_id'),

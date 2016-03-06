@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Devils_HomeWidget>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Devils_HomeWidget>
     </modules>
     <global>
@@ -20,6 +20,9 @@
                     <image_store>
                         <table>devils_homewidget_image_store</table>
                     </image_store>
+                    <image_area>
+                        <table>devils_homewidget_image_area</table>
+                    </image_area>
                 </entities>
             </devils_homewidget_resource>
         </models>

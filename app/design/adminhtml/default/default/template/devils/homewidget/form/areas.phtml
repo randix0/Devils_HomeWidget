@@ -1,0 +1,47 @@
+<?php
+/** @var Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Tab_Areas $this */
+$data = $this->getFormData();
+$image = (empty($data['src'])) ? '' : $data['src'];
+$width = (empty($data['width'])) ? 548 : $data['width'];
+$height = (empty($data['height'])) ? 362 : $data['height'];
+?>
+
+<style>
+    #myCanvas {
+        background-image: url(<?php echo $data['src']; ?>);
+        cursor: crosshair;
+        border: 1px solid;
+        margin-bottom: 20px;
+    }
+
+    map area {
+        box-shadow: ;
+    }
+</style>
+
+<canvas id="myCanvas" width="<?php echo $width; ?>" height="<?php echo $height; ?>" onclick="MapCreator.click(event);"></canvas>
+
+<div class="grid">
+<table class="border" cellpadding="0" cellspacing="0" style="width: 550px;">
+    <thead>
+        <tr class="headings">
+            <th class="type-sku">#</th>
+            <th class="type-title">Title</th>
+            <th class="type-url">URL Path <span class="required">*</span></th>
+            <th class="type-butt last">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody id="homewidget_areas">
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="100" class="a-right">
+                <button id="add_select_row_button_1" title="Add New Row" type="button"
+                        class="scalable add add-select-row" onclick="MapCreator.newFigure(); return false;" style="">
+                    <span><span><span>Add New Row</span></span></span>
+                </button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
