@@ -42,6 +42,7 @@ if (!empty($items)):
                         <area shape="poly"
                               coords="<?php echo $area['points']; ?>"
                               href="<?php echo $this->getUrl(trim($area['url_path'], '/')); ?>"
+                              title="<?php echo $area['name']; ?>"
                               alt="<?php echo $area['name']; ?>" />
                     <?php endforeach; ?>
                     </map>
