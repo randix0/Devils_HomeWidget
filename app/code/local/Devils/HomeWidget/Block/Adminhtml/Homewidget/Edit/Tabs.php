@@ -15,14 +15,14 @@ class Devils_HomeWidget_Block_Adminhtml_Homewidget_Edit_Tabs extends Mage_Adminh
         $this->addTab('main_section', array(
             'label'     => Mage::helper('adminhtml')->__('Image Info'),
             'title'     => Mage::helper('adminhtml')->__('Image Info'),
-            'content'   => $this->getLayout()->createBlock('devils_homewidget/adminhtml_homeWidget_edit_tab_main')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('devils_homewidget/adminhtml_homewidget_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('areas_section', array(
             'label'     => Mage::helper('adminhtml')->__('Image Map Areas'),
             'title'     => Mage::helper('adminhtml')->__('Image Map Areas'),
-            'content'   => $this->getLayout()->createBlock('devils_homewidget/adminhtml_homeWidget_edit_tab_areas',
+            'content'   => $this->getLayout()->createBlock('devils_homewidget/adminhtml_homewidget_edit_tab_areas',
                 'homeWidgetAreas')->toHtml(),
         ));
         return parent::_beforeToHtml();
