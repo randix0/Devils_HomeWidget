@@ -1,6 +1,6 @@
 <?php
 
-class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Tab_Areas extends Mage_Adminhtml_Block_Template
+class Devils_HomeWidget_Block_Adminhtml_Homewidget_Edit_Tab_Areas extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {

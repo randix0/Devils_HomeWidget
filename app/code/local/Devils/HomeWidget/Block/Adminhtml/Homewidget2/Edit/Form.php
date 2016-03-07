@@ -1,6 +1,6 @@
 <?php
 
-class Devils_HomeWidget_Block_Adminhtml_HomeWidget_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Devils_HomeWidget_Block_Adminhtml_Homewidget_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     protected function _prepareForm()
     {
