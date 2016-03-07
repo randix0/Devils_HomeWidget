@@ -7,7 +7,7 @@ class Devils_HomeWidget_Block_Adminhtml_Homewidget_Edit_Tabs extends Mage_Adminh
         parent::__construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('User Information'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Image Information'));
     }
 
     protected function _beforeToHtml()
