@@ -11,7 +11,7 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('devils_homewidget/image_area'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
-        'primary'   => true,
+        'primary'   => false,
     ), 'Entity ID')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true
@@ -22,6 +22,8 @@ $table = $installer->getConnection()
     ->addColumn('points', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false
     ), 'Points')
+    ->addIndex($installer->getIdxName('devils_homewidget/image_store', array('entity_id')),
+        array('entity_id'))
     ->addForeignKey($installer->getFkName('devils_homewidget/image_area', 'entity_id', 'devils_homewidget/image', 'entity_id'),
         'entity_id', $installer->getTable('devils_homewidget/image'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

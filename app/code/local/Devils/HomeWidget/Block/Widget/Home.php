@@ -11,7 +11,8 @@ class Devils_HomeWidget_Block_Widget_Home extends Mage_Core_Block_Template imple
             ->addStoreFilter($store)
             ->addFieldToFilter('is_active', 1)
             ->setOrder('position', 'ASC')
-            ->setOrder('entity_id', 'ASC');
+            ->setOrder('entity_id', 'ASC')
+            ->walk('afterLoad');
 
         return $collection;
     }

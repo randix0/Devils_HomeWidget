@@ -12,8 +12,8 @@
         init: function (id) {
             this.canvasObj = document.getElementById(id);
             this.canvasContext = this.canvasObj.getContext("2d");
-            this.size.width = this.canvasObj.offsetWidth;
-            this.size.height = this.canvasObj.offsetHeight;
+            this.size.width = this.canvasObj.getAttribute('width');
+            this.size.height = this.canvasObj.getAttribute('height');
             this.canvasContext.fillStyle = 'rgba(255, 255, 255, 0.5)';
             this.initialized = true;
         },
@@ -90,7 +90,6 @@
 
         },
         addTableRow: function (id, points) {
-            //<tr id="homewidget_area_'+ id +'">
             if (typeof(points) == 'undefined' || !points || points.length == 0) {
                 return false;
             }
@@ -106,7 +105,7 @@
             return false;
         },
         deleteTableRow: function (id) {
-            this.points.splice(id, 1);
+            this.points[id] = [];
             removeNode = document.getElementById('homewidget_area_'+ id);
             removeNode.parentElement.removeChild(removeNode);
             this.redrawCanvas();

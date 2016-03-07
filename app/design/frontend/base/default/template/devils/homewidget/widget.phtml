@@ -11,12 +11,17 @@ if (!empty($items)):
         <?php
         $i = 0;
         foreach($items as $item):
+        $id = (int) $item->getId();
         $width = (int) $item->getWidth();
         $height = (int) $item->getHeight();
         $resizeMode = $item->getResizeMode();
         $imageUrl = $helper->getResizedImage($item->getImage(), $width, $height, $resizeMode);
         $urlPath = trim($item->getUrlPath(), '/');
-        $url = $this->getUrl($urlPath);
+        $areas = $item->getAreas();
+        $url = '';
+        if ($urlPath && empty($areas)) {
+            $url = $this->getUrl($urlPath);
+        }
         $i++;
         if (!empty($imageUrl)):
         ?>
@@ -24,9 +29,23 @@ if (!empty($items)):
         <div class="homepage-banners row clearfix" style="margin:-13px 0 0!important;">
             <?php endif;?>
             <div class="grid_6">
-                <?php echo ($urlPath) ? '<a href="' . $url . '" target="_self">' : ''; ?>
+                <?php if (empty($areas)):?>
+                <?php echo ($url) ? '<a href="' . $url . '" target="_self">' : ''; ?>
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>" />
-                <?php echo ($urlPath) ? '</a>' : ''; ?>
+                <?php echo ($url) ? '</a>' : ''; ?>
+                <?php else: ?>
+                    <img src="<?php echo $imageUrl; ?>" alt="<?php echo $item->getName(); ?>"
+                         usemap="homewidget_<?php echo $id;?>" />
+
+                    <map name="homewidget_<?php echo $id;?>">
+                    <?php foreach($areas as $area): ?>
+                        <area shape="poly"
+                              coords="<?php echo $area['points']; ?>"
+                              href="<?php echo $this->getUrl(trim($area['url_path'], '/')); ?>"
+                              alt="<?php echo $area['name']; ?>" />
+                    <?php endforeach; ?>
+                    </map>
+                <?php endif; ?>
             </div>
             <?php endif; endforeach; ?>
         </div></div>

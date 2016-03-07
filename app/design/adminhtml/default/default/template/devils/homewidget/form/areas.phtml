@@ -32,6 +32,53 @@ $height = (empty($data['height'])) ? 362 : $data['height'];
         </tr>
     </thead>
     <tbody id="homewidget_areas">
+    <?php if (!empty($data['areas'])): $i = 0; $areasPoints = array(); ?>
+        <?php foreach ($data['areas'] as $area):?>
+            <tr id="homewidget_area_<?php echo $i; ?>">
+            <td><input type="hidden" name="areas[<?php echo $i; ?>][points]"
+                value="<?php echo $area['points']; ?>"><?php echo $i; ?></td>
+            <td><input type="text" class="input-text" name="areas[<?php echo $i; ?>][name]"
+                value="<?php echo $area['name']; ?>"></td>
+            <td><input type="text" class="input-text required-entry" name="areas[<?php echo $i; ?>][url_path]"
+                value="<?php echo $area['url_path']; ?>"></td>
+            <td class="last"><span title="Delete row"><button title="Delete Row" type="button"
+                class="scalable delete delete-select-row icon-btn"
+                onclick="MapCreator.deleteTableRow(<?php echo $i; ?>);" style="">
+                <span><span><span>Delete Row</span></span></span></button></span></td>
+            </tr>
+        <?php
+
+        $pointsRaw = explode(',', $area['points']);
+        $points = array();
+        $rowCount = 0;
+        $pointCount = 0;
+        foreach ($pointsRaw as $point) {
+            $points[$rowCount][] = $point;
+            if ($pointCount%2) {
+                $rowCount++;
+            }
+            $pointCount++;
+        }
+
+        foreach ($points as $point) {
+            $areasPoints[$i][] = '[' . implode(',', $point) . ']';
+        }
+
+        $i++; endforeach;
+        ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                <?php $i = 0; foreach ($areasPoints as $points): ?>
+                MapCreator.points.push([<?php echo implode(',', $points); ?>]);
+                <?php $i++; endforeach; $i++; ?>
+                MapCreator.currentFigure = <?php echo $i; ?>;
+                MapCreator.points[MapCreator.currentFigure] = [];
+                MapCreator.init('myCanvas');
+                MapCreator.redrawCanvas();
+
+            });
+        </script>
+    <?php endif; ?>
     </tbody>
     <tfoot>
         <tr>

@@ -32,9 +32,9 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
     {
         if ($object->getId()) {
             $stores = $this->lookupStoreIds($object->getId());
-
             $object->setData('store_id', $stores);
-
+            $areas = $this->lookupAreas($object->getId());
+            $object->setData('areas', $areas);
         }
 
         return parent::_afterLoad($object);
@@ -96,9 +96,26 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
 
         $select  = $adapter->select()
             ->from($this->getTable('devils_homewidget/image_store'), 'store_id')
-            ->where('entity_id = ?',(int)$id);
+            ->where('entity_id = ?',(int) $id);
 
         return $adapter->fetchCol($select);
+    }
+
+    /**
+     * Get item maps areas
+     *
+     * @param int $id
+     * @return array
+     */
+    public function lookupAreas($id)
+    {
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
+            ->from($this->getTable('devils_homewidget/image_area'))
+            ->where('entity_id = ?',(int) $id);
+
+        return $adapter->fetchAll($select);
     }
 
     /**
@@ -109,7 +126,8 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $oldStores = $this->lookupStoreIds($object->getId());
+        $entityId = (int) $object->getId();
+        $oldStores = $this->lookupStoreIds($entityId);
         $newStores = (array)$object->getStores();
         if (empty($newStores)) {
             $newStores = (array)$object->getStoreId();
@@ -120,7 +138,7 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
 
         if ($deleteStores) {
             $where = array(
-                'entity_id = ?'     => (int) $object->getId(),
+                'entity_id = ?'     => $entityId,
                 'store_id IN (?)' => $deleteStores
             );
 
@@ -132,13 +150,26 @@ class Devils_HomeWidget_Model_Resource_Image extends Mage_Core_Model_Resource_Db
 
             foreach ($insertStores as $storeId) {
                 $data[] = array(
-                    'entity_id'  => (int) $object->getId(),
+                    'entity_id'  => $entityId,
                     'store_id' => (int) $storeId
                 );
             }
 
             $this->_getWriteAdapter()->insertMultiple($table, $data);
         }
+
+        $areas = $object->getAreas();
+        $table  = $this->getTable('devils_homewidget/image_area');
+
+        $where = array(
+            'entity_id = ?'     => $entityId,
+        );
+
+        $this->_getWriteAdapter()->delete($table, $where);
+        foreach ($areas as &$area) {
+            $area['entity_id'] = $entityId;
+        }
+        $this->_getWriteAdapter()->insertMultiple($table, $areas);
 
         //Mark layout cache as invalidated
         Mage::app()->getCacheInstance()->invalidateType('layout');
